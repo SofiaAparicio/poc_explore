@@ -1,0 +1,269 @@
+.swipe-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  z-index: 1000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+}
+
+.swipe-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1a5f3f;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.back-button:hover {
+  background: rgba(26, 95, 63, 0.05);
+}
+
+.progress-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-text {
+  background: rgba(26, 95, 63, 0.1);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #1a5f3f;
+  font-size: 12px;
+}
+
+.saved-badge {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.saved-badge-button {
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.saved-badge-button:hover {
+  background: rgba(76, 175, 80, 1);
+  transform: scale(1.05);
+  box-shadow: 0 2px 10px rgba(76, 175, 80, 0.4);
+}
+
+.swipe-content {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.swipe-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a5f3f;
+  margin: 0 0 20px 0;
+  padding: 0 4px;
+}
+
+.card-stack {
+  position: relative;
+  width: 100%;
+  height: 470px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 1;
+  margin-bottom: 40px;
+}
+
+.swipe-complete {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #333;
+  padding: 40px 20px;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.swipe-complete h2 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: #1a5f3f;
+}
+
+.swipe-complete p {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.saved-count {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: #4caf50;
+}
+
+.close-button {
+  background: #1a5f3f;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #2a7f5f;
+  transform: translateY(-1px);
+}
+
+.swipe-actions {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  width: 100%;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  max-width: 100%;
+}
+
+.action-button {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+.skip-button {
+  background: white;
+  color: #f44336;
+  border-color: #f44336;
+}
+
+.skip-button:hover {
+  background: #ffebee;
+  transform: translateY(-1px);
+}
+
+.skip-button:active {
+  transform: translateY(0);
+}
+
+.save-button {
+  background: white;
+  color: #4caf50;
+  border-color: #4caf50;
+}
+
+.save-button:hover {
+  background: #e8f5e9;
+  transform: translateY(-1px);
+}
+
+.save-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .swipe-header {
+    padding: 12px 16px;
+  }
+
+  .swipe-content {
+    padding: 20px 16px;
+  }
+
+  .swipe-section-title {
+    font-size: 18px;
+  }
+
+  .card-stack {
+    height: 440px;
+  }
+
+  .swipe-actions {
+    padding: 12px 16px;
+  }
+
+  .action-button {
+    height: 44px;
+    font-size: 13px;
+  }
+}
+

@@ -1,0 +1,339 @@
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.map-container .leaflet-container {
+  font-family: inherit;
+}
+
+.map-container .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.map-container .leaflet-popup-tip {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.map-container .custom-marker-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease;
+}
+
+.map-container .leaflet-marker-icon:hover {
+  transform: scale(1.1);
+  z-index: 1000 !important;
+}
+
+.map-container .user-location-icon {
+  filter: drop-shadow(0 2px 6px rgba(244, 67, 54, 0.4));
+  z-index: 1001 !important;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+  gap: 0;
+}
+
+.map-bottom-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1001;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.map-header {
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 12px;
+  border-radius: 0;
+  box-shadow: none;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.map-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.map-tab {
+  background: transparent;
+  border: none;
+  color: rgba(128, 128, 128, 0.8);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 18px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.map-tab.active {
+  color: rgba(128, 128, 128, 1);
+}
+
+.map-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 18px;
+  right: 18px;
+  height: 3px;
+  background: rgba(128, 128, 128, 1);
+  border-radius: 2px;
+}
+
+.back-to-feed-button {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.back-to-feed-button:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.map-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.map-header p {
+  margin: 0;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.explore-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  letter-spacing: 0.1px;
+  width: 100%;
+  max-width: 100%;
+  align-self: center;
+}
+
+.saved-button {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  letter-spacing: 0.1px;
+  width: 100%;
+  max-width: 100%;
+  align-self: center;
+}
+
+.saved-button:hover {
+  background: white;
+  border-color: rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.explore-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+}
+
+.explore-button:active {
+  transform: translateY(0);
+}
+
+.popup-content {
+  text-align: center;
+  min-width: 180px;
+  padding: 4px;
+}
+
+.popup-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.popup-category {
+  margin: 5px 0;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.popup-rating {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #ffc107;
+  font-weight: 600;
+}
+
+/* Restaurant Filter Bar */
+.restaurant-filter-bar {
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  z-index: 999;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  /* Enhanced scrolling */
+  scroll-padding: 0 16px;
+  padding-right: 32px; /* Extra padding for last item visibility */
+}
+
+.restaurant-filter-bar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Subtle scroll indicator */
+.restaurant-filter-bar::after {
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1));
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  border: 2px solid transparent;
+}
+
+.filter-item:hover {
+  background: #e8e8e8;
+  transform: translateY(-1px);
+}
+
+.filter-item:active {
+  transform: scale(0.95);
+}
+
+.filter-item.active {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+.filter-item.active .filter-label {
+  color: white;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .map-overlay {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .map-header {
+    padding: 18px 20px;
+    max-width: 100%;
+  }
+
+  .map-header h1 {
+    font-size: 22px;
+  }
+
+  .map-header p {
+    font-size: 13px;
+  }
+
+  .map-bottom-actions {
+    padding: 15px;
+  }
+
+  .explore-button {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  .saved-button {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}
+
