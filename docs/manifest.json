@@ -2,14 +2,14 @@
   "name": "London Experiences - Swipe to Explore",
   "short_name": "London Explore",
   "description": "Discover and explore London experiences through an interactive swipe interface",
-  "start_url": "/",
+  "start_url": "/poc_explore/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/poc_explore/vite.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
