@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import ExperienceCard from './ExperienceCard';
 import { getSavedExperiences, saveExperience, isExperienceSaved } from '../utils/storage';
 import { calculateDistance, formatDistance, USER_LOCATION } from '../utils/distance';
+import travelModeOffImage from '../assets/travel-mode-off.png';
 import './FeedView.css';
 
 const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreNearby }) => {
@@ -10,6 +12,8 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [savedIds, setSavedIds] = useState(new Set());
   const [contentTab, setContentTab] = useState('experiences');
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [isTravelModeOn, setIsTravelModeOn] = useState(true);
 
   useEffect(() => {
     const saved = getSavedExperiences();
@@ -21,12 +25,18 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
   const visibleCards = currentExperiences.slice(currentCardIndex, currentCardIndex + 3);
 
   const handleSwipeLeft = () => {
+    if (showSwipeHint) {
+      setShowSwipeHint(false);
+    }
     if (currentCardIndex < currentExperiences.length - 1) {
       setCurrentCardIndex(currentCardIndex + 1);
     }
   };
 
   const handleSwipeRight = () => {
+    if (showSwipeHint) {
+      setShowSwipeHint(false);
+    }
     // Save the current experience
     const currentExperience = currentExperiences[currentCardIndex];
     if (currentExperience) {
@@ -58,32 +68,58 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
     return formatDistance(distance);
   };
 
+  const travelModeToggle = (
+    <button
+      className={`travel-mode-toggle ${isTravelModeOn ? 'is-on' : 'is-off'}`}
+      type="button"
+      aria-label={`Travel mode ${isTravelModeOn ? 'on' : 'off'}`}
+      onClick={() => setIsTravelModeOn(prev => !prev)}
+    >
+      {!isTravelModeOn && (
+        <span className="travel-mode-status">OFF</span>
+      )}
+      <span className="travel-mode-text">TRAVEL</span>
+      {isTravelModeOn && (
+        <span className="travel-mode-status">ON</span>
+      )}
+    </button>
+  );
+
   return (
     <div className="feed-view">
-      {/* Header */}
-      <div className="feed-header-new">
-        <div className="header-top">
-          <h1 className="header-title">Where to?</h1>
-          <button className="header-icon-button">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
-        <div className="search-bar">
-          <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <input 
-            type="text" 
-            placeholder="Places to go, things to do, hotels..." 
-            className="search-input"
+      {!isTravelModeOn ? (
+        <div className="travel-mode-off-screen">
+          <img
+            src={travelModeOffImage}
+            alt="Travel mode off"
+            className="travel-mode-off-full"
           />
+          <div className="travel-mode-toggle-wrapper">
+            {travelModeToggle}
+          </div>
         </div>
-      </div>
-      
-      {/* Scrollable Content */}
-      <div className="feed-content">
+      ) : (
+        <>
+          {/* Header */}
+          <div className="feed-header-new">
+            <div className="header-top">
+              <h1 className="header-title">Where to?</h1>
+              {travelModeToggle}
+            </div>
+            <div className="search-bar">
+              <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <input 
+                type="text" 
+                placeholder="Places to go, things to do, hotels..." 
+                className="search-input"
+              />
+            </div>
+          </div>
+          
+          {/* Scrollable Content */}
+          <div className="feed-content">
         {/* Explore nearby section */}
         <div className="explore-nearby-section" onClick={handleExploreNearbyClick}>
           <div className="explore-nearby-content">
@@ -93,7 +129,10 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
               </svg>
             </div>
             <div className="explore-nearby-text">
-              <span className="explore-nearby-label">London, UK</span>
+              <span className="explore-nearby-label">
+                
+                London, UK
+              </span>
             </div>
             <svg className="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -103,7 +142,10 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
 
         {/* Travel mode section */}
         <div className="travel-mode-section">
-          <h2 className="section-title">Travel mode</h2>
+          <h2 className="section-title">
+            
+            To Do Next
+          </h2>
           <div className="card-stack-container">
             <div className="card-stack">
               <AnimatePresence>
@@ -116,6 +158,8 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
                     onSwipeLeft={handleSwipeLeft}
                     onSwipeRight={handleSwipeRight}
                     isSaved={savedIds.has(experience.id)}
+                    showHeartOverlay={false}
+                    showSwipeHint={showSwipeHint && index === 0}
                   />
                 ))}
               </AnimatePresence>
@@ -148,7 +192,9 @@ const FeedView = ({ experiences, restaurants, onShowMap, onShowSaved, onExploreN
             </div>
           </div>
         )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

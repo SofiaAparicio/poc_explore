@@ -30,6 +30,10 @@
   z-index: 1000 !important;
 }
 
+.map-container .leaflet-bottom.leaflet-right {
+  display: none;
+}
+
 .map-container .user-location-icon {
   filter: drop-shadow(0 2px 6px rgba(244, 67, 54, 0.4));
   z-index: 1001 !important;
@@ -222,8 +226,8 @@
 
 /* Restaurant Filter Bar */
 .restaurant-filter-bar {
-  position: fixed;
-  bottom: 70px;
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom));
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.01);

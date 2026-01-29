@@ -9,6 +9,7 @@ const SwipeView = ({ experiences, onClose }) => {
   const [remainingExperiences, setRemainingExperiences] = useState(experiences);
   const [savedCount, setSavedCount] = useState(0);
   const [savedIds, setSavedIds] = useState(new Set());
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
 
   useEffect(() => {
     // Load saved count and IDs from localStorage
@@ -25,17 +26,25 @@ const SwipeView = ({ experiences, onClose }) => {
   }, [currentIndex]);
 
   const handleSwipeLeft = () => {
-    if (currentIndex < remainingExperiences.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // All cards swiped
+    if (showSwipeHint) {
+      setShowSwipeHint(false);
+    }
+    if (remainingExperiences.length <= 1) {
+      setRemainingExperiences([]);
       setTimeout(() => {
         onClose();
       }, 500);
+      return;
     }
+
+    setRemainingExperiences(prev => prev.filter((_, idx) => idx !== currentIndex));
+    setCurrentIndex(prevIndex => Math.min(prevIndex, remainingExperiences.length - 2));
   };
 
   const handleSwipeRight = () => {
+    if (showSwipeHint) {
+      setShowSwipeHint(false);
+    }
     const currentExperience = remainingExperiences[currentIndex];
     
     // Save to localStorage (persists even when going back)
@@ -46,15 +55,16 @@ const SwipeView = ({ experiences, onClose }) => {
     setSavedCount(saved.length);
     setSavedIds(new Set(saved.map(e => e.id)));
 
-    // Move to next card
-    if (currentIndex < remainingExperiences.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // All cards swiped
+    if (remainingExperiences.length <= 1) {
+      setRemainingExperiences([]);
       setTimeout(() => {
         onClose();
       }, 500);
+      return;
     }
+
+    setRemainingExperiences(prev => prev.filter((_, idx) => idx !== currentIndex));
+    setCurrentIndex(prevIndex => Math.min(prevIndex, remainingExperiences.length - 2));
   };
 
   const visibleCards = remainingExperiences.slice(currentIndex, currentIndex + 3);
@@ -96,7 +106,7 @@ const SwipeView = ({ experiences, onClose }) => {
       </div>
 
       <div className="swipe-content">
-        <h2 className="swipe-section-title">Travel mode</h2>
+        <h2 className="swipe-section-title">What to do</h2>
         <div className="card-stack">
           <AnimatePresence>
             {visibleCards.map((experience, index) => (
@@ -108,6 +118,8 @@ const SwipeView = ({ experiences, onClose }) => {
                 onSwipeLeft={handleSwipeLeft}
                 onSwipeRight={handleSwipeRight}
                 isSaved={savedIds.has(experience.id)}
+                showHeartOverlay={false}
+                showSwipeHint={showSwipeHint && index === 0}
               />
             ))}
           </AnimatePresence>

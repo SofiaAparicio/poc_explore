@@ -1,10 +1,20 @@
 import { motion } from 'framer-motion';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaStar, FaRegStar, FaMapMarkerAlt } from 'react-icons/fa';
 import { useSwipeable } from '../hooks/useSwipeable';
 import { calculateDistance, formatDistance, USER_LOCATION } from '../utils/distance';
+import swipeHandImage from '../assets/swipe-hand.png';
 import './ExperienceCard.css';
 
-const ExperienceCard = ({ experience, onSwipeLeft, onSwipeRight, index, total, isSaved = false }) => {
+const ExperienceCard = ({
+  experience,
+  onSwipeLeft,
+  onSwipeRight,
+  index,
+  total,
+  isSaved = false,
+  showSwipeHint = false,
+  showHeartOverlay = true,
+}) => {
   const { isDragging, dragOffset, handlers } = useSwipeable(onSwipeLeft, onSwipeRight);
 
   // Calculate distance from user location
@@ -20,7 +30,7 @@ const ExperienceCard = ({ experience, onSwipeLeft, onSwipeRight, index, total, i
   const opacity = 1 - Math.abs(dragOffset.x) / 500;
   
   // Calculate card offset for overlapping effect
-  const cardOffset = index * 8; // Overlap cards by 8px
+  const cardOffset = - index * 14; // Stronger offset for visible stack
   
   // Visual feedback colors based on swipe direction
   const getCardStyle = () => {
@@ -69,13 +79,13 @@ const ExperienceCard = ({ experience, onSwipeLeft, onSwipeRight, index, total, i
         y: dragOffset.y,
         rotate: rotation,
         opacity: isDragging ? opacity : 1,
-        scale: 1 - (index * 0.05), // Slightly scale down cards behind
+        scale: 1 - (index * 0.035), // Keep back cards more visible
       }}
       style={{
         zIndex: total - index,
         ...getCardStyle(),
       }}
-      initial={{ scale: 0.95 - (index * 0.05), opacity: 0, x: cardOffset, y: 0 }}
+      initial={{ scale: 0.96 - (index * 0.035), opacity: 0, x: cardOffset, y: 0 }}
       exit={{ 
         scale: 0.8, 
         opacity: 0, 
@@ -87,15 +97,28 @@ const ExperienceCard = ({ experience, onSwipeLeft, onSwipeRight, index, total, i
     >
       <div className="card-image-container">
         <img src={experience.image} alt={experience.title} className="card-image" />
-        {isSaved && (
+        {isSaved && showHeartOverlay && (
           <div className="card-heart-overlay">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#4caf50" stroke="#ffffff" strokeWidth="2"/>
             </svg>
           </div>
         )}
+        {showSwipeHint && (
+          <div className="card-swipe-hint" aria-hidden="true">
+            <img
+              src={swipeHandImage}
+              alt=""
+              className="card-swipe-hint-image"
+              aria-hidden="true"
+            />
+          </div>
+        )}
         <div className="card-overlay-top">
-          <span className="card-location">{locationName}</span>
+          <span className="card-location">
+            <FaMapMarkerAlt className="location-icon" />
+            {locationName}
+          </span>
         </div>
         <div className="card-overlay-bottom">
           <div className="card-info">
